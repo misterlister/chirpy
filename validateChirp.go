@@ -20,8 +20,10 @@ func handlerValidateChirp(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	cleaned_body := removeBadWords(params.Body)
+
 	resp := validMessage{
-		Valid: true,
+		Body: cleaned_body,
 	}
 
 	respondWithJSON(w, http.StatusOK, resp)
