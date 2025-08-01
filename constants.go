@@ -20,4 +20,11 @@ const (
 	MaxChirpLength    = 140
 	UnknownErrMsg     = "Something went wrong"
 	TooLongErrMsg     = "Chirp is too long"
+	CensorSymbol      = "****"
 )
+
+var BadWords = []string{
+	"kerfuffle",
+	"sharbert",
+	"fornax",
+}
