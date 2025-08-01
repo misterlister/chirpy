@@ -15,5 +15,5 @@ type errorMessage struct {
 }
 
 type validMessage struct {
-	Valid bool `json:"valid"`
+	Body string `json:"cleaned_body"`
 }
