@@ -1,11 +1,14 @@
 package main
 
 import (
+	"encoding/json"
 	"net/http"
 )
 
 func (cfg *apiConfig) handlerUserCreate(w http.ResponseWriter, req *http.Request) {
-	params, err := decodeParams(req)
+	var params create_user_parameters
+	decoder := json.NewDecoder(req.Body)
+	err := decoder.Decode(&params)
 
 	if err != nil {
 		respondWithError(w, 400, UnknownErrMsg)
