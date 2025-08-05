@@ -14,14 +14,16 @@ import (
 func main() {
 	godotenv.Load()
 	dbURL := os.Getenv("DB_URL")
+	platform := os.Getenv("PLATFORM")
 	db, err := sql.Open("postgres", dbURL)
 	if err != nil {
-		log.Println("Error creating database connection")
+		log.Println(DatabaseInitErrMsg)
 		return
 	}
 	dbQueries := database.New(db)
 	apiCfg := apiConfig{
 		dbQueries: dbQueries,
+		platform:  platform,
 	}
 
 	serveMux := http.NewServeMux()
@@ -29,11 +31,19 @@ func main() {
 		Addr:    ":" + Port,
 		Handler: serveMux,
 	}
+
+	// General handler
 	serveMux.Handle(AppPrefix+"/", apiCfg.middlewareMetricsInc(http.StripPrefix(AppPrefix, http.FileServer(http.Dir(".")))))
+
+	// GET requests
 	serveMux.HandleFunc(GetReq+ApiPrefix+HealthPath, handlerReadiness)
 	serveMux.HandleFunc(GetReq+AdminPrefix+MetricPath, apiCfg.handlerMetrics)
+
+	// POST requests
 	serveMux.HandleFunc(PostReq+AdminPrefix+ResetPath, apiCfg.handlerReset)
 	serveMux.HandleFunc(PostReq+ApiPrefix+ValidateChirpPath, handlerValidateChirp)
+	serveMux.HandleFunc(PostReq+ApiPrefix+UsersPath, apiCfg.handlerUserCreate)
+
 	log.Printf("Serving on port: %s\n", Port)
 	log.Fatal(server.ListenAndServe())
 }
