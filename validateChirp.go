@@ -1,14 +1,11 @@
 package main
 
 import (
-	"encoding/json"
 	"net/http"
 )
 
 func handlerValidateChirp(w http.ResponseWriter, req *http.Request) {
-	decoder := json.NewDecoder(req.Body)
-	params := parameters{}
-	err := decoder.Decode(&params)
+	params, err := decodeParams(req)
 
 	if err != nil {
 		respondWithError(w, 400, UnknownErrMsg)
