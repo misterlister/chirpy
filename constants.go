@@ -1,7 +1,10 @@
 package main
 
 const (
-	Port              = "8080"
+	// Port
+	Port = "8080"
+
+	// Path strings
 	AppPrefix         = "/app"
 	ApiPrefix         = "/api"
 	AdminPrefix       = "/admin"
@@ -9,20 +12,37 @@ const (
 	MetricPath        = "/metrics"
 	ResetPath         = "/reset"
 	ValidateChirpPath = "/validate_chirp"
-	GetReq            = "GET "
-	PutReq            = "PUT "
-	DeleteReq         = "DELETE "
-	PostReq           = "POST "
-	TextHeader        = "text/plain; charset=utf-8"
-	HtmlHeader        = "text/html"
-	JsonHeader        = "application/json"
-	ContentType       = "Content-Type"
-	MaxChirpLength    = 140
-	UnknownErrMsg     = "Something went wrong"
-	TooLongErrMsg     = "Chirp is too long"
-	CensorSymbol      = "****"
+	UsersPath         = "/users"
+
+	// Request strings
+	GetReq    = "GET "
+	PutReq    = "PUT "
+	DeleteReq = "DELETE "
+	PostReq   = "POST "
+
+	// Header strings
+	ContentType = "Content-Type"
+	TextHeader  = "text/plain; charset=utf-8"
+	HtmlHeader  = "text/html"
+	JsonHeader  = "application/json"
+
+	// Defined numbers
+	MaxChirpLength = 140
+
+	// Error message strings
+	UnknownErrMsg      = "Something went wrong"
+	TooLongErrMsg      = "Chirp is too long"
+	MissingParamErrMsg = "User did not provide required content"
+	DatabaseErrMsg     = "Error connecting to the database"
+	DatabaseInitErrMsg = "Error initializing database connection"
+	UnauthorizedErrMsg = "Unauthorized action attempted"
+	CensorSymbol       = "****"
+
+	// Success message strings
+	ResetMsg = "All users deleted. Hits reset to 0"
 )
 
+// Words that must be censored
 var BadWords = []string{
 	"kerfuffle",
 	"sharbert",
