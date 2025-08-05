@@ -12,6 +12,7 @@ const (
 	MetricPath        = "/metrics"
 	ResetPath         = "/reset"
 	ValidateChirpPath = "/validate_chirp"
+	ChirpsPath        = "/chirps"
 	UsersPath         = "/users"
 
 	// Request strings

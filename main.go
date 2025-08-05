@@ -41,7 +41,7 @@ func main() {
 
 	// POST requests
 	serveMux.HandleFunc(PostReq+AdminPrefix+ResetPath, apiCfg.handlerReset)
-	serveMux.HandleFunc(PostReq+ApiPrefix+ValidateChirpPath, handlerValidateChirp)
+	serveMux.HandleFunc(PostReq+ApiPrefix+ChirpsPath, apiCfg.handlerPostChirp)
 	serveMux.HandleFunc(PostReq+ApiPrefix+UsersPath, apiCfg.handlerUserCreate)
 
 	log.Printf("Serving on port: %s\n", Port)
