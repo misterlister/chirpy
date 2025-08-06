@@ -38,6 +38,7 @@ func main() {
 	// GET requests
 	serveMux.HandleFunc(GetReq+ApiPrefix+HealthPath, handlerReadiness)
 	serveMux.HandleFunc(GetReq+AdminPrefix+MetricPath, apiCfg.handlerMetrics)
+	serveMux.HandleFunc(GetReq+ApiPrefix+ChirpsPath, apiCfg.handlerGetAllChirps)
 
 	// POST requests
 	serveMux.HandleFunc(PostReq+AdminPrefix+ResetPath, apiCfg.handlerReset)
