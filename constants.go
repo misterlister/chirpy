@@ -36,6 +36,7 @@ const (
 	MissingParamErrMsg = "User did not provide required content"
 	DatabaseErrMsg     = "Error connecting to the database"
 	DatabaseInitErrMsg = "Error initializing database connection"
+	GetChirpsErrMsg    = "Error retrieving Chirps from database"
 	UnauthorizedErrMsg = "Unauthorized action attempted"
 	CensorSymbol       = "****"
 
