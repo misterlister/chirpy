@@ -5,8 +5,6 @@ import (
 	"net/http"
 
 	"github.com/misterlister/chirpy/internal/database"
-
-	"github.com/google/uuid"
 )
 
 func (cfg *apiConfig) handlerPostChirp(w http.ResponseWriter, req *http.Request) {
@@ -28,7 +26,7 @@ func (cfg *apiConfig) handlerPostChirp(w http.ResponseWriter, req *http.Request)
 
 	cleanedParams := database.CreateChirpParams{
 		Body:   cleanedBody,
-		UserID: uuid.NullUUID{UUID: params.UserID, Valid: true},
+		UserID: params.UserID,
 	}
 
 	cleanedChirp, err := cfg.dbQueries.CreateChirp(req.Context(), cleanedParams)
@@ -43,7 +41,7 @@ func (cfg *apiConfig) handlerPostChirp(w http.ResponseWriter, req *http.Request)
 		CreatedAt: cleanedChirp.CreatedAt,
 		UpdatedAt: cleanedChirp.UpdatedAt,
 		Body:      cleanedChirp.Body,
-		UserID:    cleanedChirp.UserID.UUID,
+		UserID:    cleanedChirp.UserID,
 	}
 
 	respondWithJSON(w, 201, chirpObj)
