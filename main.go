@@ -39,6 +39,7 @@ func main() {
 	serveMux.HandleFunc(GetReq+ApiPrefix+HealthPath, handlerReadiness)
 	serveMux.HandleFunc(GetReq+AdminPrefix+MetricPath, apiCfg.handlerMetrics)
 	serveMux.HandleFunc(GetReq+ApiPrefix+ChirpsPath, apiCfg.handlerGetAllChirps)
+	serveMux.HandleFunc(GetReq+ApiPrefix+ChirpsPath+"/{"+ChirpID+"}", apiCfg.handlerGetChirpByID)
 
 	// POST requests
 	serveMux.HandleFunc(PostReq+AdminPrefix+ResetPath, apiCfg.handlerReset)
