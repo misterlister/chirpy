@@ -30,6 +30,10 @@ const (
 	// Defined numbers
 	MaxChirpLength = 140
 
+	// Path variables
+
+	ChirpID = "chirpID"
+
 	// Error message strings
 	UnknownErrMsg      = "Something went wrong"
 	TooLongErrMsg      = "Chirp is too long"
@@ -37,6 +41,8 @@ const (
 	DatabaseErrMsg     = "Error connecting to the database"
 	DatabaseInitErrMsg = "Error initializing database connection"
 	GetChirpsErrMsg    = "Error retrieving Chirps from database"
+	NoChirpFoundErrMsg = "No matching Chirp found"
+	UUIDErrMsg         = "Invalid UUID"
 	UnauthorizedErrMsg = "Unauthorized action attempted"
 	CensorSymbol       = "****"
 
