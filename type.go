@@ -15,7 +15,8 @@ type apiConfig struct {
 }
 
 type create_user_parameters struct {
-	Email string `json:"email"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 type create_chirp_parameters struct {
@@ -25,6 +26,11 @@ type create_chirp_parameters struct {
 
 type errorMessage struct {
 	Error string `json:"error"`
+}
+
+type login_parameters struct {
+	Password string `json:"password"`
+	Email    string `json:"email"`
 }
 
 type User struct {
