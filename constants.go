@@ -14,6 +14,7 @@ const (
 	ValidateChirpPath = "/validate_chirp"
 	ChirpsPath        = "/chirps"
 	UsersPath         = "/users"
+	LoginPath         = "/login"
 
 	// Request strings
 	GetReq    = "GET "
@@ -44,6 +45,7 @@ const (
 	NoChirpFoundErrMsg = "No matching Chirp found"
 	UUIDErrMsg         = "Invalid UUID"
 	UnauthorizedErrMsg = "Unauthorized action attempted"
+	PasswordFailErrMsg = "Email and Password do not match"
 	CensorSymbol       = "****"
 
 	// Success message strings
