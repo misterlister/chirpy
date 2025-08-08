@@ -1,6 +1,11 @@
 package auth
 
-import "testing"
+import (
+	"testing"
+	"time"
+
+	"github.com/google/uuid"
+)
 
 // Tests to make sure HashPassword doesn't return an error
 func TestHashPassword(t *testing.T) {
@@ -47,5 +52,27 @@ func TestComplexHashedPasswordMatch(t *testing.T) {
 
 	if err != nil {
 		t.Errorf("'password' didn't match itself after hashing")
+	}
+}
+
+// Test the creation of a JWT with valid input
+func TestMakeJWTValid(t *testing.T) {
+	userID := uuid.New()
+	secretString := "secret"
+	expiresIn := time.Minute
+	tokenString, err := MakeJWT(userID, secretString, expiresIn)
+
+	if err != nil {
+		t.Errorf("MakeJWT with 'secret' and 1 minute expiry failed to create: %v", err)
+	}
+
+	validatedUUID, err := ValidateJWT(tokenString, secretString)
+
+	if err != nil {
+		t.Errorf("MakeJWT with 'secret' and 1 minute expiry failed to validate: %v", err)
+	}
+
+	if validatedUUID != userID {
+		t.Errorf("MakeJWT with 'secret' and 1 minute expiry did not validate uuid. Expected %s, got %s", userID, validatedUUID)
 	}
 }
