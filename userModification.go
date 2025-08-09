@@ -9,7 +9,7 @@ import (
 )
 
 func (cfg *apiConfig) handlerUserCreate(w http.ResponseWriter, req *http.Request) {
-	var params create_user_parameters
+	var params createUserParameters
 	decoder := json.NewDecoder(req.Body)
 	err := decoder.Decode(&params)
 
