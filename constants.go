@@ -29,7 +29,8 @@ const (
 	JsonHeader  = "application/json"
 
 	// Defined numbers
-	MaxChirpLength = 140
+	MaxChirpLength     = 140
+	DefaultLoginExpiry = 3600
 
 	// Path variables
 
@@ -46,6 +47,7 @@ const (
 	UUIDErrMsg         = "Invalid UUID"
 	UnauthorizedErrMsg = "Unauthorized action attempted"
 	PasswordFailErrMsg = "Email and Password do not match"
+	TokenFailErrMsg    = "Error generating login token"
 	CensorSymbol       = "****"
 
 	// Success message strings
