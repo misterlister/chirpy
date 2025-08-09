@@ -8,12 +8,19 @@ import (
 )
 
 func (cfg *apiConfig) handlerPostChirp(w http.ResponseWriter, req *http.Request) {
-	var params create_chirp_parameters
+	var params createChirpParameters
 	decoder := json.NewDecoder(req.Body)
 	err := decoder.Decode(&params)
 
 	if err != nil {
 		respondWithError(w, 400, UnknownErrMsg)
+		return
+	}
+
+	uuid, err := cfg.validateLoginStatus(req.Header)
+
+	if err != nil {
+		respondWithError(w, 401, err.Error())
 		return
 	}
 
@@ -26,7 +33,7 @@ func (cfg *apiConfig) handlerPostChirp(w http.ResponseWriter, req *http.Request)
 
 	cleanedParams := database.CreateChirpParams{
 		Body:   cleanedBody,
-		UserID: params.UserID,
+		UserID: uuid,
 	}
 
 	cleanedChirp, err := cfg.dbQueries.CreateChirp(req.Context(), cleanedParams)
@@ -41,7 +48,7 @@ func (cfg *apiConfig) handlerPostChirp(w http.ResponseWriter, req *http.Request)
 		CreatedAt: cleanedChirp.CreatedAt,
 		UpdatedAt: cleanedChirp.UpdatedAt,
 		Body:      cleanedChirp.Body,
-		UserID:    cleanedChirp.UserID,
+		UserID:    uuid,
 	}
 
 	respondWithJSON(w, 201, chirpObj)
