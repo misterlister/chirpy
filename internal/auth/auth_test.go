@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"net/http"
 	"testing"
 	"time"
 
@@ -74,5 +75,45 @@ func TestMakeJWTValid(t *testing.T) {
 
 	if validatedUUID != userID {
 		t.Errorf("MakeJWT with 'secret' and 1 minute expiry did not validate uuid. Expected %s, got %s", userID, validatedUUID)
+	}
+}
+
+// Test a valid Bearer token
+func TestGetBearerTokenValid(t *testing.T) {
+	headers := http.Header{}
+	tokenString := "asldkfjaslkdfrjal"
+	headers.Set("Authorization", "Bearer "+tokenString)
+	token, err := GetBearerToken(headers)
+
+	if err != nil {
+		t.Errorf("Header 'Authorization: Bearer asldkfjaslkdfrjal' failed to validate: %v", err)
+	}
+
+	if token != tokenString {
+		t.Errorf("Token didn't parse correctly. Expected: %v, Got: ", err)
+	}
+}
+
+// Test an invalid Bearer token
+func TestGetBearerTokenInvalid(t *testing.T) {
+	headers := http.Header{}
+	tokenString := "asldkfjaslkdfrjal"
+	headers.Set("Authorization", "BBearerr "+tokenString)
+	token, err := GetBearerToken(headers)
+
+	if err == nil {
+		t.Errorf("Header 'Authorization: BBearerr asldkfjaslkdfrjal' failed to generate error. Returned: %s", token)
+	}
+}
+
+// Test an empty Bearer token
+func TestGetBearerTokenEmpty(t *testing.T) {
+	headers := http.Header{}
+	tokenString := ""
+	headers.Set("Authorization", "Bearer "+tokenString)
+	token, err := GetBearerToken(headers)
+
+	if err == nil {
+		t.Errorf("Header 'Authorization: Bearer ' failed to generate error. Returned: %s", token)
 	}
 }
