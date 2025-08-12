@@ -7,6 +7,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/misterlister/chirpy/internal/auth"
+	"github.com/misterlister/chirpy/internal/database"
 )
 
 func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, req *http.Request) {
@@ -33,25 +34,29 @@ func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	expirationDuration := DefaultLoginExpiry
-
-	if params.ExpiresInSeconds != nil && *params.ExpiresInSeconds <= DefaultLoginExpiry && *params.ExpiresInSeconds > 0 {
-		expirationDuration = *params.ExpiresInSeconds
-	}
-
-	newToken, err := auth.MakeJWT(user.ID, cfg.secret, time.Duration(expirationDuration)*time.Second)
+	accessToken, err := auth.MakeJWT(user.ID, cfg.secret, time.Hour)
 
 	if err != nil {
 		respondWithError(w, 500, TokenFailErrMsg+": "+err.Error())
 		return
 	}
 
+	var refreshTokenParams database.CreateRefreshTokenParams
+
+	refreshToken, _ := auth.MakeRefreshToken()
+
+	refreshTokenParams.Token = refreshToken
+	refreshTokenParams.UserID = user.ID
+
+	_, err = cfg.dbQueries.CreateRefreshToken(req.Context(), refreshTokenParams)
+
 	loginResp := loginResponse{
-		ID:        user.ID,
-		CreatedAt: user.CreatedAt,
-		UpdatedAt: user.UpdatedAt,
-		Email:     user.Email,
-		Token:     newToken,
+		ID:           user.ID,
+		CreatedAt:    user.CreatedAt,
+		UpdatedAt:    user.UpdatedAt,
+		Email:        user.Email,
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
 	}
 
 	respondWithJSON(w, 200, loginResp)
