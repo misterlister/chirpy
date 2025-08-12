@@ -52,6 +52,9 @@ func main() {
 	serveMux.HandleFunc(PostReq+ApiPrefix+RefreshPath, apiCfg.handlerRefresh)
 	serveMux.HandleFunc(PostReq+ApiPrefix+RevokePath, apiCfg.handlerRevoke)
 
+	// PUT requests
+	serveMux.HandleFunc(PutReq+ApiPrefix+UsersPath, apiCfg.handlerUserUpdate)
+
 	log.Printf("Serving on port: %s\n", Port)
 	log.Fatal(server.ListenAndServe())
 }
