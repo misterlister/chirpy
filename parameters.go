@@ -16,3 +16,8 @@ type loginParameters struct {
 	Password string `json:"password"`
 	Email    string `json:"email"`
 }
+
+type userUpdateParameters struct {
+	Password string `json:"password"`
+	Email    string `json:"email"`
+}
