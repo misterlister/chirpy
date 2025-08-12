@@ -15,24 +15,8 @@ type apiConfig struct {
 	secret         string
 }
 
-type createUserParameters struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
-type createChirpParameters struct {
-	Body   string    `json:"body"`
-	UserID uuid.UUID `json:"user_id"`
-}
-
 type errorMessage struct {
 	Error string `json:"error"`
-}
-
-type loginParameters struct {
-	Password         string `json:"password"`
-	Email            string `json:"email"`
-	ExpiresInSeconds *int   `json:"expires_in_seconds,omitempty"`
 }
 
 type User struct {
@@ -51,9 +35,14 @@ type Chirp struct {
 }
 
 type loginResponse struct {
-	ID        uuid.UUID `json:"id"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	Email     string    `json:"email"`
-	Token     string    `json:"token"`
+	ID           uuid.UUID `json:"id"`
+	CreatedAt    time.Time `json:"created_at"`
+	UpdatedAt    time.Time `json:"updated_at"`
+	Email        string    `json:"email"`
+	AccessToken  string    `json:"token"`
+	RefreshToken string    `json:"refresh_token"`
+}
+
+type refreshResponse struct {
+	Token string `json:"token"`
 }
