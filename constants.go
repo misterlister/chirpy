@@ -15,6 +15,8 @@ const (
 	ChirpsPath        = "/chirps"
 	UsersPath         = "/users"
 	LoginPath         = "/login"
+	RefreshPath       = "/refresh"
+	RevokePath        = "/revoke"
 
 	// Request strings
 	GetReq    = "GET "
@@ -29,8 +31,7 @@ const (
 	JsonHeader  = "application/json"
 
 	// Defined numbers
-	MaxChirpLength     = 140
-	DefaultLoginExpiry = 3600
+	MaxChirpLength = 140
 
 	// Path variables
 
