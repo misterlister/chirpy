@@ -55,6 +55,9 @@ func main() {
 	// PUT requests
 	serveMux.HandleFunc(PutReq+ApiPrefix+UsersPath, apiCfg.handlerUserUpdate)
 
+	// DELETE requests
+	serveMux.HandleFunc(DeleteReq+ApiPrefix+ChirpsPath+"/{"+ChirpID+"}", apiCfg.handlerDeleteChirp)
+
 	log.Printf("Serving on port: %s\n", Port)
 	log.Fatal(server.ListenAndServe())
 }

@@ -49,6 +49,7 @@ const (
 	UnauthorizedErrMsg = "Unauthorized action attempted"
 	PasswordFailErrMsg = "Email and Password do not match"
 	TokenFailErrMsg    = "Error generating login token"
+	DeleteAuthErrMsg   = "Cannot delete another user's Chirp"
 	CensorSymbol       = "****"
 
 	// Success message strings

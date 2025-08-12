@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/misterlister/chirpy/internal/database"
 )
 
@@ -17,7 +18,7 @@ func (cfg *apiConfig) handlerPostChirp(w http.ResponseWriter, req *http.Request)
 		return
 	}
 
-	uuid, err := cfg.validateLoginStatus(req.Header)
+	userUuid, err := cfg.validateLoginStatus(req.Header)
 
 	if err != nil {
 		respondWithError(w, 401, err.Error())
@@ -33,7 +34,7 @@ func (cfg *apiConfig) handlerPostChirp(w http.ResponseWriter, req *http.Request)
 
 	cleanedParams := database.CreateChirpParams{
 		Body:   cleanedBody,
-		UserID: uuid,
+		UserID: userUuid,
 	}
 
 	cleanedChirp, err := cfg.dbQueries.CreateChirp(req.Context(), cleanedParams)
@@ -48,8 +49,46 @@ func (cfg *apiConfig) handlerPostChirp(w http.ResponseWriter, req *http.Request)
 		CreatedAt: cleanedChirp.CreatedAt,
 		UpdatedAt: cleanedChirp.UpdatedAt,
 		Body:      cleanedChirp.Body,
-		UserID:    uuid,
+		UserID:    userUuid,
 	}
 
 	respondWithJSON(w, 201, chirpObj)
+}
+
+func (cfg *apiConfig) handlerDeleteChirp(w http.ResponseWriter, req *http.Request) {
+	userUuid, err := cfg.validateLoginStatus(req.Header)
+
+	if err != nil {
+		respondWithError(w, 401, err.Error())
+		return
+	}
+
+	chirpID := req.PathValue(ChirpID)
+
+	chirpUUID, err := uuid.Parse(chirpID)
+
+	if err != nil {
+		respondWithError(w, 400, UUIDErrMsg)
+		return
+	}
+
+	dbChirp, err := cfg.dbQueries.GetChirpByID(req.Context(), chirpUUID)
+
+	if err != nil {
+		respondWithError(w, 404, err.Error())
+		return
+	}
+
+	if dbChirp.UserID != userUuid {
+		respondWithError(w, 403, DeleteAuthErrMsg)
+		return
+	}
+
+	err = cfg.dbQueries.DeleteChirpByID(req.Context(), chirpUUID)
+
+	if err != nil {
+		respondWithError(w, 404, err.Error())
+		return
+	}
+	w.WriteHeader(204)
 }
