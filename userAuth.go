@@ -16,7 +16,7 @@ func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, req *http.Request) {
 	err := decoder.Decode(&params)
 
 	if err != nil {
-		respondWithError(w, 400, UnknownErrMsg)
+		respondWithError(w, 400, err.Error())
 		return
 	}
 
@@ -57,6 +57,7 @@ func (cfg *apiConfig) handlerLogin(w http.ResponseWriter, req *http.Request) {
 		Email:        user.Email,
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
+		IsChirpyRed:  user.IsChirpyRed,
 	}
 
 	respondWithJSON(w, 200, loginResp)
