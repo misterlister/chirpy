@@ -40,7 +40,7 @@ func ValidateJWT(tokenString, tokenSecret string) (uuid.UUID, error) {
 	tokenClaims, ok := jwtToken.Claims.(*jwt.RegisteredClaims)
 
 	if !ok {
-		return uuid.Nil, errors.New("Unable to interpret claims")
+		return uuid.Nil, errors.New(InterpretClaimsErrMsg)
 	}
 
 	ID, err := uuid.Parse(tokenClaims.Subject)
@@ -53,16 +53,16 @@ func ValidateJWT(tokenString, tokenSecret string) (uuid.UUID, error) {
 }
 
 func GetBearerToken(headers http.Header) (string, error) {
-	token := headers.Get("Authorization")
+	token := headers.Get(AuthHeader)
 
-	if !strings.HasPrefix(token, "Bearer ") {
-		return "", errors.New("Invalid Authorization header format")
+	if !strings.HasPrefix(token, BearerPrefix) {
+		return "", errors.New(InvalidAuthHeaderErrMsg)
 	}
 
-	cleanedToken := strings.TrimPrefix(token, "Bearer ")
+	cleanedToken := strings.TrimPrefix(token, BearerPrefix)
 
 	if cleanedToken == "" {
-		return "", errors.New("No authorization header found")
+		return "", errors.New(NoAuthHeaderErrMsg)
 	}
 
 	return cleanedToken, nil
