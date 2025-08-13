@@ -16,6 +16,7 @@ func main() {
 	dbURL := os.Getenv("DB_URL")
 	platform := os.Getenv("PLATFORM")
 	secret := os.Getenv("SECRET")
+	polkaKey := os.Getenv("POLKA_KEY")
 	db, err := sql.Open("postgres", dbURL)
 	if err != nil {
 		log.Println(DatabaseInitErrMsg)
@@ -27,6 +28,7 @@ func main() {
 		dbQueries: dbQueries,
 		platform:  platform,
 		secret:    secret,
+		polkaKey:  polkaKey,
 	}
 
 	serveMux := http.NewServeMux()
