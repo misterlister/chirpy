@@ -51,6 +51,7 @@ func main() {
 	serveMux.HandleFunc(PostReq+ApiPrefix+LoginPath, apiCfg.handlerLogin)
 	serveMux.HandleFunc(PostReq+ApiPrefix+RefreshPath, apiCfg.handlerRefresh)
 	serveMux.HandleFunc(PostReq+ApiPrefix+RevokePath, apiCfg.handlerRevoke)
+	serveMux.HandleFunc(PostReq+ApiPrefix+PolkaPath+WebhooksPath, apiCfg.handlerPolkaWebhook)
 
 	// PUT requests
 	serveMux.HandleFunc(PutReq+ApiPrefix+UsersPath, apiCfg.handlerUserUpdate)
