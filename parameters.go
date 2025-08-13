@@ -21,3 +21,10 @@ type userUpdateParameters struct {
 	Password string `json:"password"`
 	Email    string `json:"email"`
 }
+
+type polkaWebhookParameters struct {
+	Event string `json:"event"`
+	Data  struct {
+		UserId string `json:"user_id"`
+	} `json:"data"`
+}
