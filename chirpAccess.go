@@ -4,10 +4,24 @@ import (
 	"net/http"
 
 	"github.com/google/uuid"
+	"github.com/misterlister/chirpy/internal/database"
 )
 
 func (cfg *apiConfig) handlerGetAllChirps(w http.ResponseWriter, req *http.Request) {
-	chirps, err := cfg.dbQueries.GetAllChirps(req.Context())
+	authorID := req.URL.Query().Get("author_id")
+
+	var chirps []database.Chirp
+	var err error
+
+	if authorID == "" {
+		chirps, err = cfg.dbQueries.GetAllChirps(req.Context())
+	} else {
+		authorUUID, err := uuid.Parse(authorID)
+		if err != nil {
+			respondWithError(w, 400, InvalidAuthorIDErrMsg+": "+authorID)
+		}
+		chirps, err = cfg.dbQueries.GetChirpsByAuthorID(req.Context(), authorUUID)
+	}
 
 	if err != nil {
 		respondWithError(w, 500, GetChirpsErrMsg)
