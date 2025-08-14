@@ -53,6 +53,7 @@ const (
 	TokenFailErrMsg         = "Error generating login token"
 	DeleteAuthErrMsg        = "Cannot delete another user's Chirp"
 	UnrecognizedEventErrMsg = "Unrecognized event"
+	InvalidAuthorIDErrMsg   = "Invalid author ID"
 	CensorSymbol            = "****"
 
 	// Success message strings
